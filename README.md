@@ -1,2 +1,2 @@
 # congo
-an attemp to learn and create a basic container
+an attempt to learn and create a basic container
