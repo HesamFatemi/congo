@@ -31,7 +31,10 @@ func run() {
 	c.SysProcAttr = &syscall.SysProcAttr{
 		Cloneflags: syscall.CLONE_NEWUTS | syscall.CLONE_NEWPID,
 	}
-	c.Run()
+	err := c.Run()
+	if err != nil {
+		log.Panicf("failed to pass commands to os: %v", err)
+	}
 }
 
 func child() {
@@ -44,11 +47,14 @@ func child() {
 		fmt.Printf("faild to cahnge hostname err: %v", err)
 	}
 
-	// passing the command to oss
+	// passing the command to os
 	c := exec.Command(os.Args[2], os.Args[3:]...)
 	c.Stdin = os.Stdin
 	c.Stdout = os.Stdout
 	c.Stderr = os.Stderr
 
-	c.Run()
+	err = c.Run()
+	if err != nil {
+		log.Panicf("failed to process commands to os: %v", err)
+	}
 }
